@@ -185,7 +185,6 @@ def test_compile_and_upload_combo(run_command, data_dir, detected_boards):
     # Create a test sketch
     sketch_name = "CompileAndUploadIntegrationTest"
     sketch_path = os.path.join(data_dir, sketch_name)
-    sketch_main_file = os.path.join(sketch_path, sketch_name+".ino")
     result = run_command("sketch new {}".format(sketch_path))
     assert result.ok
     assert "Sketch created in: {}".format(sketch_path) in result.stdout
@@ -212,6 +211,7 @@ def test_compile_and_upload_combo(run_command, data_dir, detected_boards):
             # check from the logs if the bin file were uploaded on the current board
             log_json = open(log_file_path, "r")
             json_log_lines = log_json.readlines()
+            print(log_file_path)
             expected_trace_sequence = [
                 "Compile {sketch} for {fqbn} started".format(
                     sketch=sketch_path, fqbn=board.fqbn
@@ -222,16 +222,14 @@ def test_compile_and_upload_combo(run_command, data_dir, detected_boards):
                 "Upload {sketch} on {fqbn} started".format(
                     sketch=sketch_path, fqbn=board.fqbn
                 ),
-                "Upload {sketch} on {fqbn} successful".format(
-                    sketch=sketch_name, fqbn=board.fqbn
-                ),
+                "Upload successful",
             ]
+            print(expected_trace_sequence)
             assert is_message_sequence_in_json_log_traces(
                 expected_trace_sequence, json_log_lines
             )
 
         run_test(sketch_path)
-        run_test(sketch_main_file)
 
 
 def is_message_sequence_in_json_log_traces(message_sequence, log_json_lines):
@@ -294,23 +292,31 @@ def test_compile_without_precompiled_libraries(run_command, data_dir):
         zip_ref.extractall("{}/libraries/".format(data_dir))
     result = run_command("lib install Arduino_LSM9DS1@1.1.0")
     assert result.ok
-    result = run_command("compile -b arduino:mbed:nano33ble {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
+    result = run_command(
+        "compile -b arduino:mbed:nano33ble {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
     assert result.ok
-    result = run_command("compile -b adafruit:samd:adafruit_feather_m4 {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
+    result = run_command(
+        "compile -b adafruit:samd:adafruit_feather_m4 {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(
+            data_dir))
     assert result.ok
 
     # Non-precompiled version of Arduino_TensorflowLite
     result = run_command("lib install Arduino_TensorflowLite@1.15.0-ALPHA")
     assert result.ok
-    result = run_command("compile -b arduino:mbed:nano33ble {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
+    result = run_command(
+        "compile -b arduino:mbed:nano33ble {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
     assert result.ok
-    result = run_command("compile -b adafruit:samd:adafruit_feather_m4 {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(data_dir))
+    result = run_command(
+        "compile -b adafruit:samd:adafruit_feather_m4 {}/libraries/Arduino_TensorFlowLite/examples/magic_wand/".format(
+            data_dir))
     assert result.ok
 
     # Bosch sensor library
     result = run_command("lib install \"BSEC Software Library@1.5.1474\"")
     assert result.ok
-    result = run_command("compile -b arduino:samd:mkr1000 {}/libraries/BSEC_Software_Library/examples/basic/".format(data_dir))
+    result = run_command(
+        "compile -b arduino:samd:mkr1000 {}/libraries/BSEC_Software_Library/examples/basic/".format(data_dir))
     assert result.ok
-    result = run_command("compile -b arduino:mbed:nano33ble {}/libraries/BSEC_Software_Library/examples/basic/".format(data_dir))
+    result = run_command(
+        "compile -b arduino:mbed:nano33ble {}/libraries/BSEC_Software_Library/examples/basic/".format(data_dir))
     assert result.ok
