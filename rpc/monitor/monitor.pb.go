@@ -9,8 +9,6 @@ import (
 	proto "github.com/golang/protobuf/proto"
 	_struct "github.com/golang/protobuf/ptypes/struct"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -272,11 +270,11 @@ var fileDescriptor_94d5950496a7550d = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConnInterface
+var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+const _ = grpc.SupportPackageIsVersion4
 
 // MonitorClient is the client API for Monitor service.
 //
@@ -288,10 +286,10 @@ type MonitorClient interface {
 }
 
 type monitorClient struct {
-	cc grpc.ClientConnInterface
+	cc *grpc.ClientConn
 }
 
-func NewMonitorClient(cc grpc.ClientConnInterface) MonitorClient {
+func NewMonitorClient(cc *grpc.ClientConn) MonitorClient {
 	return &monitorClient{cc}
 }
 
@@ -331,14 +329,6 @@ type MonitorServer interface {
 	// Open a bidirectional monitor stream. This can be used to implement
 	// something similar to the Arduino IDE's Serial Monitor.
 	StreamingOpen(Monitor_StreamingOpenServer) error
-}
-
-// UnimplementedMonitorServer can be embedded to have forward compatible implementations.
-type UnimplementedMonitorServer struct {
-}
-
-func (*UnimplementedMonitorServer) StreamingOpen(srv Monitor_StreamingOpenServer) error {
-	return status.Errorf(codes.Unimplemented, "method StreamingOpen not implemented")
 }
 
 func RegisterMonitorServer(s *grpc.Server, srv MonitorServer) {

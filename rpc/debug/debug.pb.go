@@ -9,8 +9,6 @@ import (
 	commands "github.com/arduino/arduino-cli/rpc/commands"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -278,11 +276,11 @@ var fileDescriptor_5ae24eab94cb53d5 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConnInterface
+var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+const _ = grpc.SupportPackageIsVersion4
 
 // DebugClient is the client API for Debug service.
 //
@@ -293,10 +291,10 @@ type DebugClient interface {
 }
 
 type debugClient struct {
-	cc grpc.ClientConnInterface
+	cc *grpc.ClientConn
 }
 
-func NewDebugClient(cc grpc.ClientConnInterface) DebugClient {
+func NewDebugClient(cc *grpc.ClientConn) DebugClient {
 	return &debugClient{cc}
 }
 
@@ -335,14 +333,6 @@ func (x *debugDebugClient) Recv() (*DebugResp, error) {
 type DebugServer interface {
 	// Start a debug session and communicate with the debugger tool.
 	Debug(Debug_DebugServer) error
-}
-
-// UnimplementedDebugServer can be embedded to have forward compatible implementations.
-type UnimplementedDebugServer struct {
-}
-
-func (*UnimplementedDebugServer) Debug(srv Debug_DebugServer) error {
-	return status.Errorf(codes.Unimplemented, "method Debug not implemented")
 }
 
 func RegisterDebugServer(s *grpc.Server, srv DebugServer) {
