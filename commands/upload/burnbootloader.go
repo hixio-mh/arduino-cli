@@ -37,7 +37,8 @@ func BurnBootloader(ctx context.Context, req *rpc.BurnBootloaderReq, outStream i
 	err := runProgramAction(
 		pm,
 		nil, // sketch
-		"",  // importDir
+		"",  // importFile,
+		"",  // importFile
 		req.GetFqbn(),
 		req.GetPort(),
 		req.GetProgrammer(),
