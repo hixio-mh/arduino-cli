@@ -211,7 +211,6 @@ def test_compile_and_upload_combo(run_command, data_dir, detected_boards):
             # check from the logs if the bin file were uploaded on the current board
             log_json = open(log_file_path, "r")
             json_log_lines = log_json.readlines()
-            print(log_file_path)
             expected_trace_sequence = [
                 "Compile {sketch} for {fqbn} started".format(
                     sketch=sketch_path, fqbn=board.fqbn
@@ -224,7 +223,6 @@ def test_compile_and_upload_combo(run_command, data_dir, detected_boards):
                 ),
                 "Upload successful",
             ]
-            print(expected_trace_sequence)
             assert is_message_sequence_in_json_log_traces(
                 expected_trace_sequence, json_log_lines
             )
