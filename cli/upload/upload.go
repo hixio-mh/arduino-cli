@@ -64,8 +64,8 @@ func NewCommand() *cobra.Command {
 	return uploadCommand
 }
 
-func checkFlagsConflicts(command *cobra.Command, args []string){
-	if importFile != "" && importDir != ""{
+func checkFlagsConflicts(command *cobra.Command, args []string) {
+	if importFile != "" && importDir != "" {
 		feedback.Errorf("error: --input-file and --input-dir flags cannot be used together")
 		os.Exit(errorcodes.ErrBadArgument)
 	}
