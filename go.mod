@@ -49,7 +49,7 @@ require (
 	go.bug.st/serial.v1 v0.0.0-20180827123349-5f7892a7bb45 // indirect
 	golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
 	golang.org/x/net v0.0.0-20200202094626-16171245cfb2
-	golang.org/x/sys v0.0.0-20200202164722-d101bd2416d5 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 	golang.org/x/text v0.3.2
 	google.golang.org/genproto v0.0.0-20200204135345-fa8e72b47b90 // indirect
 	google.golang.org/grpc v1.27.0
